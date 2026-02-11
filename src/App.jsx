@@ -7,7 +7,7 @@ import PortfolioPage from './pages/portfolio/PortfolioPage';
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/project1">
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/learn" element={<LearnPage />} />
