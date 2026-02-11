@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@layer base {
+  *, *::before, *::after {
+    font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif !important;
+    font-weight: 700 !important;
+  }
+}
+
+/* 스크롤바 숨기기 (스크롤 기능은 유지) */
+.overflow-y-auto {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.overflow-y-auto::-webkit-scrollbar {
+  display: none;
+}
+
+/* 채권 페이지 전용: 숫자와 텍스트 정렬 조정 */
+#category4-bond-section .flex .text-blue-600 {
+  margin-top: 0 !important;
+  position: relative;
+  top: 2px;
+}
+
+#category4-bond-section .flex p {
+  margin-top: 0 !important;
+  position: relative;
+  top: 2px;
+}
+
+/* ETF 페이지 전용: 숫자와 텍스트 정렬 조정 */
+#category4-etf-section .flex > span {
+  margin-top: 0 !important;
+  position: relative;
+  top: 2px;
+}
+
+#category4-etf-section .flex p {
+  margin-top: 0 !important;
+  position: relative;
+  top: 2px;
+}
+
+#category4-etf-section .flex p span {
+  position: relative;
+  top: 0;
+}

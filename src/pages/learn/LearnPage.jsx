@@ -1,0 +1,137 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const categories = [
+  {
+    title: '카테고리 1: 월급과 세금 (급여 관리 기초)',
+    items: [
+      { id: 1, name: '세전/세후', eng: 'Pre-tax / After-tax' },
+      { id: 2, name: '실수령액', eng: 'Net Pay' },
+      { id: 3, name: '연말정산', eng: 'Year-end Tax Settlement' },
+      { id: 4, name: '소득공제/세액공제', eng: 'Deductions / Tax Credits' },
+      { id: 5, name: '고정지출/변동지출', eng: 'Fixed / Variable Expenses' },
+    ],
+  },
+  {
+    title: '카테고리 2: 은행과 저축 (돈 모으기)',
+    items: [
+      { id: 6, name: '예금', eng: 'Time Deposit' },
+      { id: 7, name: '적금', eng: 'Installment Savings' },
+      { id: 8, name: '단리 vs 복리', eng: 'Simple vs Compound Interest' },
+      { id: 9, name: '비과세', eng: 'Tax-exempt' },
+      { id: 10, name: 'ISA', eng: '마법 바구니', ready: true },
+      { id: 11, name: 'CMA/파킹통장', eng: '주차장', ready: true },
+    ],
+  },
+  {
+    title: '카테고리 3: 신용과 대출 (신용 관리)',
+    items: [
+      { id: 12, name: '신용점수', eng: 'Credit Score' },
+      { id: 13, name: '원금', eng: 'Principal' },
+      { id: 14, name: '원리금', eng: 'Principal + Interest' },
+      { id: 15, name: '대출', eng: 'Loan' },
+      { id: 16, name: '마이너스 통장', eng: 'Overdraft' },
+      { id: 17, name: 'DSR', eng: 'Debt Service Ratio' },
+    ],
+  },
+  {
+    title: '카테고리 4: 투자 기초 (재테크)',
+    items: [
+      { id: 18, name: '주식', eng: 'Stocks' },
+      { id: 19, name: '채권', eng: 'Bonds' },
+      { id: 20, name: 'ETF', eng: 'Exchange Traded Fund' },
+      { id: 21, name: '배당금', eng: 'Dividends' },
+    ],
+  },
+  {
+    title: '카테고리 5: 주거와 부동산 (독립 준비)',
+    items: [
+      { id: 22, name: '전세 vs 월세', eng: 'Jeonse vs Rent' },
+      { id: 23, name: '등기부등본', eng: 'Property Register' },
+      { id: 24, name: '확정일자', eng: 'Fixed Date' },
+      { id: 25, name: '주택청약', eng: '번호표', ready: true },
+      { id: 26, name: '임대차계약서', eng: 'Lease Agreement' },
+    ],
+  },
+  {
+    title: '카테고리 6: 경제 환경 (세상 흐름)',
+    items: [
+      { id: 27, name: '인플레이션', eng: 'Inflation' },
+      { id: 28, name: '공공요금', eng: 'Public Utilities' },
+    ],
+  },
+];
+
+function LearnPage() {
+  const navigate = useNavigate();
+  const [openIdx, setOpenIdx] = useState(null);
+
+  const toggleCategory = (idx) => {
+    setOpenIdx(openIdx === idx ? null : idx);
+  };
+
+  return (
+    <div className="min-h-screen bg-[#FFF8F0] flex flex-col max-w-screen-sm mx-auto">
+      {/* 헤더 */}
+      <header className="mx-4 mt-4 py-4 px-4 rounded-2xl flex items-center justify-between">
+        <div className="w-6 h-6" />
+        <h1 className="text-xl text-[#3E2C1C]">Learn</h1>
+        <button onClick={() => navigate(-1)} className="text-[#8B7E74] text-xs">
+          닫기
+        </button>
+      </header>
+
+      {/* 카테고리 아코디언 */}
+      <div className="flex-1 overflow-y-auto px-4 pb-10 mt-4">
+        <div className="flex flex-col gap-3">
+          {categories.map((cat, catIdx) => (
+            <div key={catIdx}>
+              {/* 카테고리 헤더 버튼 */}
+              <button
+                onClick={() => toggleCategory(catIdx)}
+                className="w-full text-left px-4 py-4 bg-white rounded-xl border border-[#E8DDD3] active:bg-[#FFF3D6] transition-colors flex items-center justify-between"
+              >
+                <span className="text-sm text-[#3E2C1C]">{cat.title}</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={`w-4 h-4 text-[#8B7E74] transition-transform ${openIdx === catIdx ? 'rotate-180' : ''}`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {/* 토글 항목 목록 */}
+              {openIdx === catIdx && (
+                <div className="flex flex-col gap-2 mt-2 pl-3">
+                  {cat.items.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => navigate(`/learn/${item.id}`)}
+                      className="w-full text-left px-4 py-3 bg-[#FFFDF9] rounded-lg border border-[#F0E6DA] active:bg-[#FFF3D6] transition-colors flex items-center justify-between"
+                    >
+                      <span className="text-sm text-[#3E2C1C]">
+                        {item.id}. {item.name}
+                        <span className="text-[#8B7E74] ml-1.5">({item.eng})</span>
+                      </span>
+                      {item.ready && (
+                        <span className="text-xs text-[#C4956A] bg-[#FFF3D6] px-2 py-0.5 rounded-full">
+                          영상 준비됨
+                        </span>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default LearnPage;
