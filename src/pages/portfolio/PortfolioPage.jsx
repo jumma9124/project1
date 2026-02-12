@@ -3,6 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
+// HTML 이스케이프 함수 (XSS 방지)
+const escapeHtml = (str) => {
+  const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+  return String(str).replace(/[&<>"']/g, (c) => map[c]);
+};
+
 // 자산 클래스별 정보
 const assetInfo = {
   현금: { color: '#10B981', icon: '💵' },
@@ -298,8 +304,8 @@ function PortfolioPage() {
                 return `
                 <tr style="background: ${index % 2 === 0 ? '#F8FAFC' : '#ffffff'};">
                   <td style="padding: 10px; font-size: 12px; color: #64748B; border: 1px solid #E2E8F0;">${index + 1}</td>
-                  <td style="padding: 10px; font-size: 12px; color: #1E293B; font-weight: 600; border: 1px solid #E2E8F0;">${asset.type}${isDollar ? ' ($)' : ''}</td>
-                  <td style="padding: 10px; font-size: 12px; color: #475569; border: 1px solid #E2E8F0;">${asset.name}</td>
+                  <td style="padding: 10px; font-size: 12px; color: #1E293B; font-weight: 600; border: 1px solid #E2E8F0;">${escapeHtml(asset.type)}${isDollar ? ' ($)' : ''}</td>
+                  <td style="padding: 10px; font-size: 12px; color: #475569; border: 1px solid #E2E8F0;">${escapeHtml(asset.name)}</td>
                   <td style="padding: 10px; font-size: 12px; color: #1E293B; font-weight: 600; text-align: right; border: 1px solid #E2E8F0;" class="num-label">${Number(asset.amount).toLocaleString('ko-KR')}원</td>
                   <td style="padding: 10px; font-size: 13px; color: ${assetInfo[asset.type]?.color}; font-weight: 700; text-align: right; border: 1px solid #E2E8F0;" class="num-label">${percentage}%</td>
                 </tr>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const SERVICE_KEY = '06b3477db7333064915456425b02c1111869ed411d0c1b277de5d212ea7464be';
+const SERVICE_KEY = import.meta.env.VITE_SERVICE_KEY;
 
 // 공통 스타일
 const commonStyles = {
