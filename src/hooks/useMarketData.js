@@ -37,7 +37,10 @@ const useMarketData = () => {
         const symbols = ['^KS11', '^KQ11']; // KOSPI, KOSDAQ
 
         const fetchPromises = symbols.map(async (symbol) => {
-          const url = `/api/yahoo/v8/finance/chart/${symbol}?interval=1d&range=1d`;
+          const isDev = import.meta.env.DEV;
+          const url = isDev
+            ? `/api/yahoo/v8/finance/chart/${symbol}?interval=1d&range=1d`
+            : `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=1d`)}`;
           const response = await fetch(url);
 
           if (!response.ok) {
