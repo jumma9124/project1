@@ -34,7 +34,7 @@
 | **Styling** | Tailwind CSS 4.1.18 |
 | **Routing** | React Router DOM 7.13.0 |
 | **Storage** | Firebase Storage |
-| **PDF 생성** | html2pdf.js, jsPDF, html2canvas |
+| **PDF 생성** | jsPDF, html2canvas |
 | **배포** | GitHub Pages (gh-pages) |
 
 ---
@@ -220,14 +220,11 @@ src/
 ### .env 파일 설정
 ```env
 VITE_FINLIFE_API_KEY=06b3477db7333064915456425b02c1111869ed411d0c1b277de5d212ea7464be
+VITE_SERVICE_KEY=06b3477db7333064915456425b02c1111869ed411d0c1b277de5d212ea7464be
 ```
-
-### 하드코딩된 API 키 (소스코드 내)
-```
-06b3477db7333064915456425b02c1111869ed411d0c1b277de5d212ea7464be
-```
-- 위치: `ISASection.jsx`, `CMASection.jsx`, `SubscriptionGraphSection.jsx`
-- 권장: `.env` 파일로 통일
+- `VITE_SERVICE_KEY`: ISASection, CMASection, SubscriptionGraphSection에서 사용
+- `VITE_FINLIFE_API_KEY`: DepositSection (FinLife API 활성화 후 사용 예정)
+- 모든 API 키는 환경변수로 관리 (소스코드 내 하드코딩 없음)
 
 ### Firebase Storage
 - **Bucket**: `project1-13bc0.firebasestorage.app`
@@ -287,9 +284,16 @@ https://firebasestorage.googleapis.com/v0/b/project1-13bc0.firebasestorage.app/o
 - [x] 인플레이션 물가 시각화 (27번)
 - [x] 공공요금 가상 고지서 UI (28번)
 
-### 배포
+### 배포 및 성능
 - [x] GitHub 저장소 생성 및 푸시
 - [x] GitHub Pages 배포 설정
+- [x] BrowserRouter → HashRouter 전환 (새로고침 404 해결)
+- [x] 코드 스플리팅 (React.lazy + Suspense) — 번들 1,222KB → 233KB (80% 감소)
+- [x] Production CORS 프록시 (allorigins.win) 적용 — Yahoo Finance API 배포 환경 대응
+
+### 보안
+- [x] API 키 전체 환경변수(.env)로 이동 (소스코드 내 하드코딩 제거)
+- [x] XSS 취약점 패치 — PortfolioPage.jsx escapeHtml() 적용
 
 ---
 
@@ -298,14 +302,12 @@ https://firebasestorage.googleapis.com/v0/b/project1-13bc0.firebasestorage.app/o
 ### 필수
 - [ ] 각 용어별 동영상 제작 및 추가 (25개 남음)
 - [ ] 예금/적금 API 연동 (FinLife API 활성화 후)
-- [ ] BrowserRouter → HashRouter 변경 (GitHub Pages 새로고침 이슈)
 
 ### 메인 페이지
 - [ ] 메인 3,4,5,6번 메뉴 기능 정의
 - [ ] 메인 상단 빈 공간 활용 (검색 기능?)
 
 ### 개선사항
-- [ ] API 키 `.env` 파일로 통일
 - [ ] 모바일 반응형 최적화
 - [ ] 다크모드 지원
 
